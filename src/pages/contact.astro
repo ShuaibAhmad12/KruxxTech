@@ -1,0 +1,221 @@
+---
+import Layout from '../components/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ContactForm from '../components/ContactForm';
+import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+---
+
+<Layout 
+  title="Contact Us - KruxxTech" 
+  description="Get in touch with KruxxTech for your technology solution needs. We're here to help transform your ideas into reality."
+>
+  <Header />
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="py-20 bg-gradient-to-br from-primary-50 via-purple-50 to-secondary-50 relative overflow-hidden">
+      <!-- 3D Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-10 right-10 w-72 h-72 bg-gradient-to-br from-primary-200/20 to-cyan-200/20 rounded-full blur-3xl animate-pulse-slow" style="animation-duration: 14s;"></div>
+        <div class="absolute bottom-10 left-10 w-88 h-88 bg-gradient-to-br from-secondary-200/15 to-teal-200/15 rounded-full blur-3xl animate-float" style="animation-duration: 18s;"></div>
+        <div class="absolute top-1/2 left-1/2 w-64 h-64 bg-gradient-to-br from-purple-200/12 to-pink-200/12 rounded-full blur-3xl animate-bounce-slow transform -translate-x-1/2 -translate-y-1/2" style="animation-duration: 22s;"></div>
+        
+        <!-- Floating 3D Shapes -->
+        <div class="absolute top-1/4 left-1/3 w-20 h-20 bg-gradient-to-br from-accent-300/30 to-yellow-300/30 rounded-3xl animate-float transform rotate-30 shadow-xl shadow-accent-500/25" style="animation-delay: 1s; animation-duration: 10s;"></div>
+        <div class="absolute bottom-1/3 right-1/4 w-16 h-16 bg-gradient-to-br from-green-300/35 to-emerald-300/35 rounded-2xl animate-bounce-slow transform -rotate-15 shadow-lg shadow-green-500/25" style="animation-delay: 3s;"></div>
+        <div class="absolute top-2/3 right-1/3 w-12 h-12 bg-gradient-to-br from-rose-300/40 to-pink-300/40 rounded-full animate-pulse-slow shadow-lg shadow-rose-500/30" style="animation-delay: 5s;"></div>
+        <div class="absolute top-1/3 left-1/4 w-8 h-8 bg-gradient-to-br from-indigo-300/45 to-purple-300/45 rounded-lg animate-float transform rotate-45 shadow-md shadow-indigo-500/25" style="animation-delay: 7s; animation-duration: 12s;"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-on-scroll">
+          <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
+            Let's Start a Conversation
+          </h1>
+          <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+            Ready to transform your ideas into innovative technology solutions? 
+            We're here to help you every step of the way.
+          </p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section class="py-20 bg-gradient-to-br from-white via-blue-50 to-purple-50 relative overflow-hidden">
+      <!-- 3D Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-20 left-20 w-80 h-80 bg-gradient-to-br from-primary-200/12 to-blue-200/12 rounded-full blur-3xl animate-float" style="animation-duration: 16s;"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-gradient-to-br from-secondary-200/10 to-cyan-200/10 rounded-full blur-3xl animate-pulse-slow" style="animation-duration: 20s;"></div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-1/3 right-1/3 w-24 h-24 bg-gradient-to-br from-purple-300/20 to-pink-300/20 rounded-3xl animate-float transform rotate-20 shadow-xl shadow-purple-500/20" style="animation-delay: 2s; animation-duration: 11s;"></div>
+        <div class="absolute bottom-1/3 left-1/3 w-18 h-18 bg-gradient-to-br from-green-300/25 to-teal-300/25 rounded-2xl animate-bounce-slow transform -rotate-25 shadow-lg shadow-green-500/20" style="animation-delay: 4s;"></div>
+        <div class="absolute top-1/2 left-1/4 w-14 h-14 bg-gradient-to-br from-yellow-300/30 to-orange-300/30 rounded-2xl animate-pulse-slow transform rotate-35 shadow-lg shadow-yellow-500/25" style="animation-delay: 6s;"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <!-- Contact Information -->
+          <div class="animate-on-scroll">
+            <h2 class="text-3xl font-bold text-slate-900 mb-8">Get in Touch</h2>
+            
+            <div class="space-y-8">
+              <!-- Contact Methods -->
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Mail className="h-6 w-6 text-primary-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Email Us</h3>
+                  <p class="text-slate-600 mb-2">Send us an email and we'll respond within 24 hours.</p>
+                  <a href="mailto:info@kruxxtech.com" class="text-primary-600 hover:text-primary-700 font-medium">
+                    info@kruxxtech.com
+                  </a>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-secondary-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Phone className="h-6 w-6 text-secondary-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Call Us</h3>
+                  <p class="text-slate-600 mb-2">Speak directly with our team during business hours.</p>
+                  <a href="tel:+15551234567" class="text-primary-600 hover:text-primary-700 font-medium">
+                    +91 9876543210
+                  </a>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <MapPin className="h-6 w-6 text-accent-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Visit Our Office</h3>
+                  <p class="text-slate-600 mb-2">Stop by for a coffee and let's discuss your project.</p>
+                  <address class="text-primary-600 not-italic">
+                    123 Tech Street<br>
+                    Dehradun<br>
+                    Uttarakhand, 248001<br>
+                    India
+                  </address>
+                </div>
+              </div>
+              
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Clock className="h-6 w-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold text-slate-900 mb-2">Business Hours</h3>
+                  <div class="text-slate-600 space-y-1">
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                    <p>Saturday: 10:00 AM - 2:00 PM</p>
+                    <p>Sunday: Closed</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Quick Response Promise -->
+            <div class="mt-12 p-6 bg-primary-50 rounded-2xl border border-primary-100">
+              <div class="flex items-center space-x-3 mb-3">
+                <Send className="h-6 w-6 text-primary-600" />
+                <h3 class="text-lg font-semibold text-primary-900">Quick Response Guarantee</h3>
+              </div>
+              <p class="text-primary-700">
+                We pride ourselves on quick response times. You can expect to hear back from us within 
+                24 hours on weekdays, often much sooner.
+              </p>
+            </div>
+          </div>
+          
+          <!-- Contact Form -->
+          <div class="animate-on-scroll">
+            <div class="bg-slate-50 p-8 rounded-2xl">
+              <h2 class="text-2xl font-bold text-slate-900 mb-6">Send us a Message</h2>
+              <ContactForm client:load />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Map Section -->
+    <section class="py-20 bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50 relative overflow-hidden">
+      <!-- 3D Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-10 left-1/2 w-72 h-72 bg-gradient-to-br from-indigo-200/15 to-purple-200/15 rounded-full blur-3xl animate-float transform -translate-x-1/2" style="animation-duration: 18s;"></div>
+        <div class="absolute bottom-10 right-10 w-64 h-64 bg-gradient-to-br from-cyan-200/20 to-blue-200/20 rounded-full blur-3xl animate-pulse-slow" style="animation-duration: 22s;"></div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-1/4 w-20 h-20 bg-gradient-to-br from-accent-300/25 to-yellow-300/25 rounded-3xl animate-float transform rotate-40 shadow-xl shadow-accent-500/20" style="animation-delay: 1s; animation-duration: 13s;"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-16 h-16 bg-gradient-to-br from-rose-300/30 to-pink-300/30 rounded-2xl animate-bounce-slow transform -rotate-30 shadow-lg shadow-rose-500/25" style="animation-delay: 3s;"></div>
+        <div class="absolute top-2/3 left-1/3 w-12 h-12 bg-gradient-to-br from-emerald-300/35 to-green-300/35 rounded-full animate-pulse-slow shadow-lg shadow-emerald-500/25" style="animation-delay: 5s;"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12 animate-on-scroll">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">Find Us</h2>
+          <p class="text-lg text-slate-600">Located in the heart of the tech district</p>
+        </div>
+        
+        <div class="bg-white p-2 rounded-2xl shadow-lg animate-on-scroll">
+          <!-- Map placeholder - in a real implementation, you'd integrate with Google Maps or similar -->
+          <div class="w-full h-96 bg-slate-200 rounded-xl flex items-center justify-center">
+            <div class="text-center">
+              <MapPin className="h-12 w-12 text-slate-400 mx-auto mb-4" />
+              <p class="text-slate-600">Interactive map would be integrated here</p>
+              <p class="text-sm text-slate-500 mt-2">123 Tech Street, Dehradun, Uttarakhand</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="py-20 bg-gradient-to-br from-white via-slate-50 to-blue-50 relative overflow-hidden">
+      <!-- 3D Background Elements -->
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 right-0 w-88 h-88 bg-gradient-to-br from-primary-200/12 to-cyan-200/12 rounded-full blur-3xl animate-float" style="animation-duration: 20s;"></div>
+        <div class="absolute bottom-0 left-0 w-80 h-80 bg-gradient-to-br from-purple-200/10 to-pink-200/10 rounded-full blur-3xl animate-pulse-slow" style="animation-duration: 24s;"></div>
+        
+        <!-- Floating Elements -->
+        <div class="absolute top-1/3 left-1/3 w-22 h-22 bg-gradient-to-br from-green-300/25 to-teal-300/25 rounded-3xl animate-float transform rotate-25 shadow-xl shadow-green-500/20" style="animation-delay: 2s; animation-duration: 14s;"></div>
+        <div class="absolute bottom-1/3 right-1/3 w-18 h-18 bg-gradient-to-br from-yellow-300/30 to-orange-300/30 rounded-2xl animate-bounce-slow transform -rotate-35 shadow-lg shadow-yellow-500/25" style="animation-delay: 4s;"></div>
+        <div class="absolute top-1/2 right-1/4 w-10 h-10 bg-gradient-to-br from-indigo-300/35 to-purple-300/35 rounded-full animate-pulse-slow shadow-lg shadow-indigo-500/25" style="animation-delay: 6s;"></div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 animate-on-scroll">
+          <h2 class="text-3xl font-bold text-slate-900 mb-4">Frequently Asked Questions</h2>
+          <p class="text-lg text-slate-600">Quick answers to common questions</p>
+        </div>
+        
+        <div class="max-w-4xl mx-auto space-y-8">
+          <div class="bg-slate-50 p-6 rounded-2xl animate-on-scroll">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">How long does a typical project take?</h3>
+            <p class="text-slate-600">Project timelines vary based on complexity and scope. Simple applications may take 2-3 months, while comprehensive platforms can take 6-12 months. We'll provide a detailed timeline during our initial consultation.</p>
+          </div>
+          
+          <div class="bg-slate-50 p-6 rounded-2xl animate-on-scroll">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">Do you provide ongoing support and maintenance?</h3>
+            <p class="text-slate-600">Yes! We offer comprehensive support and maintenance packages to ensure your application continues to perform optimally. This includes updates, security patches, and feature enhancements.</p>
+          </div>
+          
+          <div class="bg-slate-50 p-6 rounded-2xl animate-on-scroll">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">What industries do you work with?</h3>
+            <p class="text-slate-600">We work across various industries including education, healthcare, finance, e-commerce, and more. Our adaptable approach allows us to understand and serve diverse business needs.</p>
+          </div>
+          
+          <div class="bg-slate-50 p-6 rounded-2xl animate-on-scroll">
+            <h3 class="text-lg font-semibold text-slate-900 mb-3">Can you help with existing applications?</h3>
+            <p class="text-slate-600">Absolutely! We can help improve, modernize, or extend existing applications. Whether you need bug fixes, performance improvements, or new features, we're here to help.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

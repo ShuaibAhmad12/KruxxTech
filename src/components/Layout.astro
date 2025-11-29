@@ -1,0 +1,269 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+}
+
+const { title, description = "KruxxTech - Technology Solutions & Software Development", image = "/og-image.jpg" } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.url)} />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.url)} />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="/hero-bg.jpg" as="image" />
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <slot />
+    
+    <style is:global>
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s ease-out;
+      }
+      
+      .animate-on-scroll.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      /* 3D Transform Utilities */
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+      
+      .perspective-1500 {
+        perspective: 1500px;
+      }
+      
+      .perspective-2000 {
+        perspective: 2000px;
+      }
+      
+      .transform-style-preserve-3d {
+        transform-style: preserve-3d;
+      }
+      
+      .rotate-y-3 {
+        transform: rotateY(3deg);
+      }
+      
+      .rotate-y-6 {
+        transform: rotateY(6deg);
+      }
+      
+      .rotate-y-12 {
+        transform: rotateY(12deg);
+      }
+      
+      .hover\:rotate-y-3:hover {
+        transform: rotateY(3deg);
+      }
+      
+      .hover\:rotate-y-6:hover {
+        transform: rotateY(6deg);
+      }
+      
+      .hover\:rotate-y-12:hover {
+        transform: rotateY(12deg);
+      }
+      
+      /* Enhanced 3D Effects */
+      .transform-gpu {
+        transform: translateZ(0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+      
+      /* Floating Animation */
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+      
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+      
+      /* Enhanced Floating Variations */
+      @keyframes floatSlow {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        33% {
+          transform: translateY(-15px) rotate(2deg);
+        }
+        66% {
+          transform: translateY(-25px) rotate(-2deg);
+        }
+      }
+      
+      @keyframes floatMedium {
+        0%, 100% {
+          transform: translateY(0px) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.05);
+        }
+      }
+      
+      @keyframes pulseSlow {
+        0%, 100% {
+          opacity: 0.6;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.8;
+          transform: scale(1.1);
+        }
+      }
+      
+      @keyframes bounceSlow {
+        0%, 100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-10px) rotate(1deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(0deg);
+        }
+        75% {
+          transform: translateY(-5px) rotate(-1deg);
+        }
+      }
+      
+      /* 3D Card Hover Effects */
+      .card-3d {
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+        transform-style: preserve-3d;
+      }
+      
+      .card-3d:hover {
+        transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      }
+      
+      /* Colorful Gradient Backgrounds */
+      .bg-gradient-rainbow {
+        background: linear-gradient(135deg, 
+          #667eea 0%, 
+          #764ba2 25%, 
+          #f093fb 50%, 
+          #f5576c 75%, 
+          #4facfe 100%);
+      }
+      
+      .bg-gradient-sunset {
+        background: linear-gradient(135deg, 
+          #fa709a 0%, 
+          #fee140 50%, 
+          #fa709a 100%);
+      }
+      
+      .bg-gradient-ocean {
+        background: linear-gradient(135deg, 
+          #667eea 0%, 
+          #764ba2 50%, 
+          #667eea 100%);
+      }
+      
+      /* Enhanced blur effects */
+      .blur-4xl {
+        filter: blur(80px);
+      }
+      
+      .blur-5xl {
+        filter: blur(100px);
+      }
+    </style>
+    
+    <script>
+      // Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+      
+      // Observe all elements with animate-on-scroll class
+      document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
+</html>

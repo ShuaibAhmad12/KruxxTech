@@ -1,0 +1,103 @@
+---
+import { ExternalLink, ArrowRight } from 'lucide-react';
+
+// Mock data - in a real app, this would come from Sanity
+const featuredProjects = [
+  {
+    title: "Combat Domain",
+    description: "Comprehensive martial arts platform connecting fighters, promoters, and gym owners with advanced profile management and achievement tracking.",
+    type: "Platform",
+    technologies: ["React", "Node.js", "MongoDB", "Socket.io"],
+    image: "https://images.pexels.com/photos/863988/pexels-photo-863988.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  {
+    title: "Alpine ERP System",
+    description: "Complete educational ERP solution for college and university management, streamlining administrative processes and student services.",
+    type: "ERP System",
+    technologies: ["Vue.js", "Laravel", "PostgreSQL", "Redis"],
+    image: "https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  {
+    title: "WorkSpace",
+    description: "Advanced collaboration platform with real-time chat, workspace management, and integrated task tracking for modern teams.",
+    type: "Collaboration Tool",
+    technologies: ["Next.js", "TypeScript", "Prisma", "WebRTC"],
+    image: "https://images.pexels.com/photos/7688336/pexels-photo-7688336.jpeg?auto=compress&cs=tinysrgb&w=800"
+  }
+];
+---
+
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 animate-on-scroll">
+      <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+        Featured Projects
+      </h2>
+      <p class="text-xl text-slate-600 max-w-3xl mx-auto">
+        Discover our latest innovations and successful implementations across various industries and technologies.
+      </p>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {featuredProjects.map((project, index) => (
+        <div class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-6 hover:rotate-y-3 animate-on-scroll border border-slate-100 overflow-hidden perspective-1000 transform-gpu">
+          <div class="relative overflow-hidden">
+            <img
+              src={project.image} 
+              alt={project.title}
+              class="w-full h-48 object-cover group-hover:scale-125 group-hover:rotate-2 transition-transform duration-500"
+            />
+            <div class="absolute top-4 right-4 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300">
+              <span class="px-3 py-1 bg-primary-500 text-white text-sm rounded-full">
+                {project.type}
+              </span>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+          
+          <div class="p-6 relative">
+            <h3 class="text-xl font-semibold text-slate-900 mb-3 group-hover:text-primary-600 transition-colors">
+              {project.title}
+            </h3>
+            <p class="text-slate-600 mb-4 line-clamp-3">
+              {project.description}
+            </p>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+              {project.technologies.map((tech) => (
+                <span class="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-lg">
+                  {tech}
+                </span>
+              ))}
+            </div>
+            
+            <div class="flex items-center text-primary-600 font-medium group-hover:text-primary-700 transition-colors">
+              Learn More
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-2 group-hover:scale-110 transition-transform duration-300" />
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-500/5 to-transparent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    <div class="text-center animate-on-scroll">
+      <a 
+        href="/projects" 
+        class="inline-flex items-center px-8 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-semibold transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-primary-500/25 hover:-translate-y-1 transform-gpu"
+      >
+        View All Projects
+        <ArrowRight className="ml-2 h-5 w-5" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

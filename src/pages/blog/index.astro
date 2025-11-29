@@ -1,0 +1,279 @@
+---
+import { sanityClient, urlFor } from '../../lib/sanityClient';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+
+const posts = await sanityClient.fetch('*[_type == "post"] | order(publishedAt desc)');
+---
+
+<Layout title="My Minimal Blog">
+  <Header />
+
+  <div class="relative min-h-screen overflow-hidden">
+    <!-- 3D Canvas Background -->
+    <canvas id="bgCanvas" class="fixed inset-0 w-full h-full -z-10"></canvas>
+    
+    <!-- Gradient Overlay for better text readability -->
+    <div class="fixed inset-0 bg-gradient-to-br from-blue-50/80 via-purple-50/60 to-pink-50/80 -z-5 pointer-events-none"></div>
+    
+    <div class="relative max-w-6xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
+      <header class="text-center mb-16">
+        <h1 class="text-6xl font-extrabold tracking-tight text-gray-900 mb-4 
+          animate-fade-in-down">
+          Blog Posts
+        </h1>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto animate-fade-in-up">
+          Curated collection of thoughts, tutorials, and adventures.
+        </p>
+      </header>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
+        {posts.map((post: { slug: { current: any; }; mainImage: any; title: unknown; publishedAt: string | number | Date; }, index: number) => (
+          
+          <a 
+            href={`/blog/${post.slug.current}`} 
+            class="block group 
+              bg-white/90 backdrop-blur-sm
+              rounded-2xl 
+              shadow-xl hover:shadow-2xl 
+              transition-all duration-500 
+              overflow-hidden 
+              transform hover:-translate-y-2 hover:scale-[1.02]
+              focus:outline-none focus:ring-4 focus:ring-blue-300
+              card-animate"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            
+            <div class="relative overflow-hidden">
+              <img 
+                src={urlFor(post.mainImage).width(800).height(500).url()} 
+                alt={`Cover image for ${post.title}`}
+                class="w-full h-48 object-cover 
+                  group-hover:scale-110 
+                  transition-transform duration-700 ease-out"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent 
+                opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <div class="p-6 sm:p-8">
+              <p class="text-sm font-medium text-blue-600 mb-2">
+                <time datetime={new Date(post.publishedAt).toISOString()}>
+                  {new Date(post.publishedAt).toLocaleDateString('en-US', {
+                    year: 'numeric', month: 'short', day: 'numeric'
+                  })}
+                </time>
+              </p>
+              
+              <h2 class="text-2xl font-semibold leading-tight text-gray-900 mb-3 
+                group-hover:text-blue-600 transition-colors duration-300">
+                {post.title}
+              </h2>
+              
+              <span class="mt-4 inline-flex items-center text-blue-600 font-medium text-sm 
+                group-hover:text-blue-700 group-hover:translate-x-1 
+                transition-transform duration-300">
+                  Read Post <span class="ml-1">&rarr;</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <style>
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes cardFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in-down {
+      animation: fadeInDown 0.8s ease-out;
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+
+    .card-animate {
+      animation: cardFadeIn 0.6s ease-out both;
+    }
+
+    .-z-10 {
+      z-index: -10;
+    }
+
+    .-z-5 {
+      z-index: -5;
+    }
+  </style>
+
+  <script>
+    // Three.js 3D Background Animation
+    const canvas = document.getElementById('bgCanvas') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d')!;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    // Particle system
+    class Particle {
+      x: number;
+      y: number;
+      z: number;
+      size: number;
+      baseX: number;
+      baseY: number;
+      density: number;
+      color: string;
+
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.z = Math.random() * 1000;
+        this.size = Math.random() * 3 + 1;
+        this.baseX = this.x;
+        this.baseY = this.y;
+        this.density = Math.random() * 30 + 10;
+        
+        const colors = ['rgba(59, 130, 246, ', 'rgba(139, 92, 246, ', 'rgba(236, 72, 153, '];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update(mouseX: number, mouseY: number) {
+        const dx = mouseX - this.x;
+        const dy = mouseY - this.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        const forceDirectionX = dx / distance;
+        const forceDirectionY = dy / distance;
+        const maxDistance = 150;
+        const force = (maxDistance - distance) / maxDistance;
+        
+        if (distance < maxDistance) {
+          const directionX = forceDirectionX * force * this.density * 0.5;
+          const directionY = forceDirectionY * force * this.density * 0.5;
+          this.x -= directionX;
+          this.y -= directionY;
+        } else {
+          if (this.x !== this.baseX) {
+            const dx = this.x - this.baseX;
+            this.x -= dx / 10;
+          }
+          if (this.y !== this.baseY) {
+            const dy = this.y - this.baseY;
+            this.y -= dy / 10;
+          }
+        }
+
+        // Gentle floating animation
+        this.z -= 0.5;
+        if (this.z < 0) {
+          this.z = 1000;
+        }
+      }
+
+      draw() {
+        const scale = 1000 / (1000 + this.z);
+        const x = (this.x - width / 2) * scale + width / 2;
+        const y = (this.y - height / 2) * scale + height / 2;
+        const size = this.size * scale;
+        const opacity = (1000 - this.z) / 1000;
+
+        ctx.fillStyle = this.color + (opacity * 0.8) + ')';
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Glow effect
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color + '0.5)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    const particles: Particle[] = [];
+    const particleCount = 80;
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    let mouseX = width / 2;
+    let mouseY = height / 2;
+
+    canvas.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      
+      // Draw connecting lines
+      ctx.strokeStyle = 'rgba(59, 130, 246, 0.1)';
+      ctx.lineWidth = 0.5;
+      
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update(mouseX, mouseY);
+        
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          if (distance < 120) {
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+        
+        particles[i].draw();
+      }
+      
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    });
+  </script>
+</Layout>

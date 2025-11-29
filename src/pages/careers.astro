@@ -1,0 +1,127 @@
+---
+import { Briefcase } from "lucide-react"; // Removed unused 'Rocket' icon
+import Header from '../components/Header.astro';
+
+const jobs = [
+ {
+ title: "Frontend Developer",
+ type: "Active",
+ description: "Build scalable and interactive user interfaces using React and Next.js.",
+ skills: ["React", "Next.js", "TailwindCSS", "TypeScript"],
+ },
+ {
+ title: "Backend Developer",
+ type: "Active",
+ description: "Design and implement backend services with Python and Node.js.",
+ skills: ["Python", "Node.js", "PostgreSQL", "REST API"],
+ },
+ {
+ title: "Full-Stack Engineer",
+ type: "Active",
+ description: "Work across the stack building dynamic and modern applications.",
+ skills: ["React", "Node.js", "GraphQL", "Docker"],
+ },
+ {
+ title: "DevOps Engineer",
+ type: "Expired", // Changed from "Upcoming" to "Expired"
+ description: "Automate deployment pipelines and ensure system scalability.",
+ skills: ["AWS", "Kubernetes", "Terraform", "CI/CD"],
+ },
+ {
+ title: "Mobile App Developer",
+ type: "Active",
+ description: "Create intuitive and responsive mobile apps for iOS and Android.",
+ skills: ["React Native", "Flutter", "Java", "Kotlin"],
+ },
+ {
+ title: "UI/UX Designer",
+ type: "Active",
+ description: "Design stunning interfaces and experiences for modern applications.",
+ skills: ["Figma", "Sketch", "Adobe XD", "Wireframing"],
+ },
+ {
+ title: "AI Engineer",
+ type: "Expired", // Changed from "Upcoming" to "Expired"
+ description: "Work on cutting-edge AI solutions to transform businesses.",
+ skills: ["Python", "TensorFlow", "LLMs", "Data Science"],
+ },
+ {
+ title: "Cloud Architect",
+ type: "Expired", // Changed from "Upcoming" to "Expired"
+ description: "Design scalable and secure cloud infrastructures.",
+ skills: ["AWS", "Azure", "GCP", "Serverless"],
+ },
+];
+---
+<Header />
+<section class="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-primary-800 to-slate-900 overflow-hidden">
+ <div class="absolute inset-0 bg-gradient-to-tr from-purple-900/40 via-transparent to-pink-900/30"></div>
+
+ <div class="absolute inset-0 pointer-events-none overflow-hidden">
+ <div class="absolute top-20 left-10 w-40 h-40 bg-gradient-to-br from-secondary-400/30 to-accent-400/30 rounded-3xl animate-float backdrop-blur-sm shadow-2xl shadow-secondary-500/20"></div>
+ <div class="absolute bottom-32 right-20 w-32 h-32 bg-gradient-to-br from-primary-400/30 to-blue-400/30 rounded-full animate-bounce-slow backdrop-blur-sm shadow-xl shadow-blue-500/20"></div>
+ <div class="absolute top-1/2 left-1/2 w-16 h-16 bg-gradient-to-br from-yellow-400/40 to-orange-400/40 rounded-xl animate-pulse-slow shadow-lg shadow-yellow-500/20"></div>
+ <div class="absolute top-1/4 right-1/3 w-24 h-24 bg-gradient-to-br from-pink-400/30 to-purple-400/30 rounded-full animate-float shadow-xl shadow-pink-500/20" style="animation-delay: 2s;"></div>
+ </div>
+
+ <div class="relative max-w-7xl mx-auto px-6 py-24 text-center">
+ <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+  Join Our <span class="bg-gradient-to-r from-secondary-400 to-accent-400 bg-clip-text text-transparent">Team</span>
+ </h1>
+ <p class="text-lg md:text-xl text-slate-300 mb-12 max-w-2xl mx-auto">
+ Explore exciting opportunities with us. Whether you're a frontend wizard, backend guru, or an AI enthusiast—there's a place for you here.
+ </p>
+
+  <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 perspective-1000">
+  {jobs.map((job) => (
+  <div class="relative group bg-white/10 backdrop-blur-md rounded-2xl border border-white/10 p-6 flex flex-col items-start transition-all duration-500 hover:scale-105 hover:rotate-y-6 hover:shadow-2xl hover:shadow-secondary-500/25">
+   <div class="flex items-center justify-between w-full mb-4">
+   <h2 class="text-2xl font-bold text-white">{job.title}</h2>
+   {job.type === "Active" ? (
+    <span class="px-3 py-1 text-sm rounded-full bg-green-500/20 text-green-300">Active</span>
+   ) : (
+    <span class="px-3 py-1 text-sm rounded-full bg-red-500/20 text-red-300">Expired</span>
+   )}
+   </div>
+   <p class="text-slate-300 text-sm mb-4 text-left">{job.description}</p>
+
+     <div class="flex flex-wrap gap-2 mb-6">
+   {job.skills.map((skill) => (
+    <span class="px-3 py-1 text-xs font-medium bg-white/10 border border-white/10 rounded-lg text-white">
+    {skill}
+    </span>
+   ))}
+   </div>
+
+     {job.type === "Active" ? (
+   <a href="/apply" class="mt-auto inline-flex items-center gap-2 px-5 py-2 bg-secondary-500 hover:bg-secondary-600 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105">
+    Apply Now <Briefcase className="h-4 w-4" />
+   </a>
+   ) : (
+   <button disabled class="mt-auto inline-flex items-center px-5 py-2 bg-slate-500/20 text-slate-400 rounded-xl font-semibold cursor-not-allowed">
+    Closed
+   </button>
+   )}
+  </div>
+  ))}
+ </div>
+ </div>
+
+ <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-secondary-500/20 to-transparent blur-2xl"></div>
+</section>
+
+<style>
+ @keyframes float {
+ 0%, 100% { transform: translateY(0) rotate(6deg); }
+ 50% { transform: translateY(-20px) rotate(-6deg); }
+ }
+ .animate-float {
+ animation: float 8s ease-in-out infinite;
+ }
+ .animate-bounce-slow {
+ animation: bounce 5s infinite;
+ }
+ .animate-pulse-slow {
+ animation: pulse 6s ease-in-out infinite;
+ }
+</style>

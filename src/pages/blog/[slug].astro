@@ -32,25 +32,148 @@ const bodyHtml = toHTML(post.body);
 ---
 
 <Layout title={post.title}>
-  <article class="max-w-3xl mx-auto px-4 py-12">
-    <a href="/blog" class="text-blue-600 hover:underline mb-8 block">&larr; Back to All Posts</a>
-    <h1 class="text-5xl font-bold mb-4">{post.title}</h1>
-    <p class="text-slate-500 mb-8">
-      Published on {new Date(post.publishedAt).toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric'
-      })}
-    </p>
+  <article class="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+    <!-- Back button with animation -->
+    <a 
+      href="/blog" 
+      class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-12 group transition-all duration-300 hover:gap-3"
+    >
+      <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      <span class="font-medium">Back to All Posts</span>
+    </a>
 
+    <!-- Header section with staggered animations -->
+    <header class="mb-12 animate-fade-in-up">
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent leading-tight animate-fade-in-up" style="animation-delay: 0.1s;">
+        {post.title}
+      </h1>
+      
+      <div class="flex items-center gap-4 text-slate-600 animate-fade-in-up" style="animation-delay: 0.2s;">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <time class="text-lg">
+            {new Date(post.publishedAt).toLocaleDateString('en-US', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            })}
+          </time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Featured image with hover effect -->
     {post.mainImage && (
-      <img
-        src={urlFor(post.mainImage).width(1200).url()}
-        alt={`Cover image for ${post.title}`}
-        class="w-full rounded-lg shadow-lg mb-12"
-      />
+      <div class="mb-16 overflow-hidden rounded-2xl shadow-2xl animate-fade-in-up group" style="animation-delay: 0.3s;">
+        <img
+          src={urlFor(post.mainImage).width(1200).url()}
+          alt={`Cover image for ${post.title}`}
+          class="w-full h-auto transform transition-transform duration-700 group-hover:scale-105"
+        />
+      </div>
     )}
 
-    <div class="prose prose-lg max-w-none prose-headings:font-bold prose-a:text-blue-600 hover:prose-a:underline">
-      <div set:html={bodyHtml} />
+    <!-- Content with enhanced styling -->
+    <div class="prose prose-lg lg:prose-xl max-w-none animate-fade-in-up" style="animation-delay: 0.4s;">
+      <div 
+        set:html={bodyHtml} 
+        class="
+          prose-headings:font-bold prose-headings:text-slate-900 prose-headings:mt-12 prose-headings:mb-6
+          prose-p:text-slate-700 prose-p:leading-relaxed prose-p:mb-6
+          prose-a:text-blue-600 prose-a:no-underline prose-a:font-medium hover:prose-a:text-blue-700 hover:prose-a:underline prose-a:transition-all
+          prose-strong:text-slate-900 prose-strong:font-semibold
+          prose-code:text-pink-600 prose-code:bg-pink-50 prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:font-mono prose-code:text-sm
+          prose-pre:bg-slate-900 prose-pre:text-slate-100 prose-pre:rounded-xl prose-pre:shadow-lg
+          prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:italic
+          prose-ul:list-disc prose-ul:pl-6
+          prose-ol:list-decimal prose-ol:pl-6
+          prose-li:text-slate-700 prose-li:mb-2
+          prose-img:rounded-xl prose-img:shadow-lg
+        "
+      />
+    </div>
+
+    <!-- Decorative gradient divider -->
+    <div class="mt-16 mb-12 h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-fade-in" style="animation-delay: 0.5s;"></div>
+    
+    <!-- Back to top button -->
+    <div class="text-center animate-fade-in" style="animation-delay: 0.6s;">
+      <a 
+        href="/blog" 
+        class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+      >
+        <span>Explore More Posts</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+        </svg>
+      </a>
     </div>
   </article>
 </Layout>
+
+<style>
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Reading progress indicator */
+  article::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    width: var(--scroll-progress, 0%);
+    z-index: 9999;
+    transition: width 0.1s ease-out;
+  }
+</style>
+
+<script>
+  // Reading progress indicator
+  function updateScrollProgress() {
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const scrollTop = window.scrollY;
+    const scrollPercent = (scrollTop / (documentHeight - windowHeight)) * 100;
+    
+    document.documentElement.style.setProperty('--scroll-progress', `${scrollPercent}%`);
+  }
+
+  window.addEventListener('scroll', updateScrollProgress);
+  updateScrollProgress();
+</script>

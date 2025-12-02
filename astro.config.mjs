@@ -1,18 +1,18 @@
-import { defineConfig } from 'astro/config';
-import sanity from '@sanity/astro';
-import react from '@astrojs/react';
+import { defineConfig } from "astro/config";
+import sanity from "@sanity/astro";
+import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 
 // [https://astro.build/config](https://astro.build/config)
 export default defineConfig({
-  integrations: [ react(),
+  integrations: [
+    react(),
     sanity({
-      projectId: '9qvfwi5w', // Paste your real ID here
-      dataset: 'production',
+      projectId: "gra6ykxj", // Paste your real ID here
+      dataset: "production",
       useCdn: true,
     }),
-    tailwind()
+    tailwind(),
   ],
-  site: 'https://kruxxtech.com'
-
+  site: "https://kruxxtech.com",
 });

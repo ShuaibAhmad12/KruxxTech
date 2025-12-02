@@ -1,61 +1,119 @@
-// Example for Next.js: pages/api/contact.js
+import { createClient } from "@sanity/client";
+import { Resend } from "resend";
 
-import { createClient } from '@sanity/client';
-import { Resend } from 'resend';
+const jsonResponse = (status, body) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-// Configure Sanity client
-const sanityClient = createClient({
-  projectId: process.env.SANITY_PROJECT_ID,
-  dataset: process.env.SANITY_DATASET,
-  token: process.env.SANITY_API_TOKEN, // Use a write token
-  useCdn: false,
-  apiVersion: '2023-05-03',
-});
+const sanitize = (value) => (typeof value === "string" ? value.trim() : "");
 
-// Configure Resend client
-const resend = new Resend(process.env.RESEND_API_KEY);
+const escapeHtml = (value) =>
+  value.replace(/[&<>"']/g, (char) => {
+    const map = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return map[char] || char;
+  });
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+export const POST = async ({ request }) => {
+  const projectId = import.meta.env.SANITY_PROJECT_ID;
+  const dataset = import.meta.env.SANITY_DATASET;
+  const apiVersion = import.meta.env.SANITY_API_VERSION || "2023-05-03";
+  const sanityToken = import.meta.env.SANITY_API_TOKEN;
+  const resendApiKey = import.meta.env.RESEND_API_KEY;
+  const resendFrom = import.meta.env.RESEND_FROM_EMAIL;
+  const recipient = import.meta.env.CONTACT_EMAIL_RECIPIENT;
+
+  const missingEnv = Object.entries({
+    SANITY_PROJECT_ID: projectId,
+    SANITY_DATASET: dataset,
+    SANITY_API_TOKEN: sanityToken,
+    RESEND_API_KEY: resendApiKey,
+    RESEND_FROM_EMAIL: resendFrom,
+    CONTACT_EMAIL_RECIPIENT: recipient,
+  }).filter(([, value]) => !value);
+
+  if (missingEnv.length) {
+    console.error(
+      "Missing environment variables:",
+      missingEnv.map(([key]) => key).join(", ")
+    );
+    return jsonResponse(500, {
+      message: "Server misconfiguration. Please try again later.",
+    });
   }
 
-  const { name, email, subject, message } = req.body;
+  let payload;
+  try {
+    payload = await request.json();
+  } catch (error) {
+    console.error("Invalid JSON payload:", error);
+    return jsonResponse(400, { message: "Invalid JSON payload." });
+  }
+
+  const name = sanitize(payload?.name);
+  const email = sanitize(payload?.email);
+  const subject = sanitize(payload?.subject);
+  const message = sanitize(payload?.message);
 
   if (!name || !email || !subject || !message) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return jsonResponse(400, { message: "All fields are required." });
+  }
+
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    return jsonResponse(400, {
+      message: "Please provide a valid email address.",
+    });
   }
 
   try {
-    // 1. Create a new document in Sanity
-    const doc = {
-      _type: 'submission',
+    const sanityClient = createClient({
+      projectId,
+      dataset,
+      token: sanityToken,
+      apiVersion,
+      useCdn: false,
+    });
+
+    await sanityClient.create({
+      _type: "submission",
       name,
       email,
       subject,
       message,
-    };
-    await sanityClient.create(doc);
+      submittedAt: new Date().toISOString(),
+    });
 
-    // 2. Send an email notification using Resend
+    const resend = new Resend(resendApiKey);
     await resend.emails.send({
-      from: 'Contact Form <onboarding@resend.dev>', // Your "from" email configured in Resend
-      to: process.env.CONTACT_EMAIL_RECIPIENT, // Your email address
+      from: resendFrom,
+      to: recipient,
+      reply_to: email,
       subject: `New Form Submission: ${subject}`,
       html: `
         <h1>New Contact Form Submission</h1>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
+        <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Subject:</strong> ${escapeHtml(subject)}</p>
         <p><strong>Message:</strong></p>
-        <p>${message}</p>
+        <p>${escapeHtml(message)}</p>
       `,
     });
 
-    return res.status(200).json({ message: 'Message sent successfully!' });
-
+    return jsonResponse(200, { message: "Message sent successfully!" });
   } catch (error) {
-    console.error('Error:', error);
-    return res.status(500).json({ message: "Something went wrong. Please try again." });
+    console.error("Contact form submission failed:", error);
+    return jsonResponse(500, {
+      message: "Something went wrong. Please try again later.",
+    });
   }
-}
+};
